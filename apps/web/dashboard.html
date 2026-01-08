@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FibreHub | South Africa's Premier ISP Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">F</div>
+                <h1 class="logo-text">Fibre<span>Hub</span></h1>
+            </div>
+
+            <nav class="nav-menu">
+                <div class="nav-item active" data-tab="sales" id="sales-nav-item">
+                    <i class="fas fa-hand-holding-dollar"></i>
+                    <span>Sales Hub</span>
+                </div>
+                <div class="nav-item" data-tab="crm">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Smart CRM</span>
+                </div>
+                <div class="nav-item" data-tab="billing">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Billing Hub</span>
+                </div>
+                <div class="nav-item" data-tab="network">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Network Hub</span>
+                </div>
+                <div class="nav-item" data-tab="rica">
+                    <i class="fas fa-id-card"></i>
+                    <span>RICA Portal</span>
+                </div>
+                <div class="nav-item" data-tab="iot">
+                    <i class="fas fa-microchip"></i>
+                    <span>IoT Hub</span>
+                </div>
+                <div class="nav-item" data-tab="stock">
+                    <i class="fas fa-boxes"></i>
+                    <span>Stock Hub</span>
+                </div>
+                <div class="nav-item" data-tab="support">
+                    <i class="fas fa-headset"></i>
+                    <span>Support Hub</span>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+                <div class="user-profile">
+                    <div class="avatar">BM</div>
+                    <div class="user-info">
+                        <span class="user-name">B. Majozi</span>
+                        <span class="user-tier">PRO Tier</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search customer, FNO reference, or invoice...">
+                </div>
+                <div class="actions">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="btn btn-primary" id="new-deal-btn">+ New Deal</button>
+                    <button class="btn btn-primary">+ New Customer</button>
+                </div>
+            </header>
+
+            <!-- Sales View (Default View) -->
+            <div id="sales-view" class="content-view">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-sales-tab="pipeline">Pipeline</button>
+                    <button class="tab-btn" data-sales-tab="coverage">Coverage Map</button>
+                </div>
+
+                <!-- Pipeline Section -->
+                <div id="sales-pipeline-section">
+                    <div class="section-header">
+                        <h3>Sales Pipeline | Standard Pipeline</h3>
+                        <div class="pipeline-metrics">
+                            <span class="metric">Total: R 1,200,000</span>
+                            <span class="metric">Weighted: R 450,000</span>
+                        </div>
+                    </div>
+
+                    <div class="kanban-board">
+                        <div class="kanban-column" data-stage="prospecting">
+                            <h4>Prospecting (R 250,000)</h4>
+                            <div class="kanban-cards">
+                                <div class="deal-card glass">
+                                    <div class="deal-name">TechStart Fiber Install</div>
+                                    <div class="deal-amount">R 12,000</div>
+                                    <div class="deal-contact">Thabo Molefe</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kanban-column" data-stage="qualified">
+                            <h4>Qualified (R 120,000)</h4>
+                            <div class="kanban-cards">
+                                <div class="deal-card glass">
+                                    <div class="deal-name">BlueWave HQ Setup</div>
+                                    <div class="deal-amount">R 85,000</div>
+                                    <div class="deal-contact">Lerato Khumalo</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="kanban-column" data-stage="negotiation">
+                            <h4>Negotiation (R 450,000)</h4>
+                            <div class="kanban-cards"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="closed">
+                            <h4>Closed Won</h4>
+                            <div class="kanban-cards"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coverage Map Section -->
+                <div id="sales-coverage-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Fibre Coverage Qualification</h3>
+                        <div class="search-container">
+                            <input type="text" id="coverage-search"
+                                placeholder="Enter street address to check coverage...">
+                            <button class="btn btn-primary">Check Coverage</button>
+                        </div>
+                    </div>
+                    <div class="map-container glass">
+                        <div id="coverage-map" style="height: 500px; border-radius: 12px;"></div>
+                        <div class="map-legend">
+                            <span class="legend-item"><span class="dot openserve"></span> Openserve</span>
+                            <span class="legend-item"><span class="dot vumatel"></span> Vumatel</span>
+                            <span class="legend-item"><span class="dot frogfoot"></span> Frogfoot</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Billing View (Hidden by default) -->
+            <div id="billing-view" style="display: none;" class="content-view">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-billing-tab="invoices">Invoices</button>
+                    <button class="tab-btn" data-billing-tab="subscriptions">Subscriptions</button>
+                    <button class="tab-btn" data-billing-tab="refunds">Refunds</button>
+                </div>
+
+                <!-- Invoices Section -->
+                <div id="billing-invoices-section">
+                    <div class="section-header">
+                        <h3>Financial Overview</h3>
+                        <div class="billing-stats">
+                            <span class="stat-pill glass">Total Revenue: R 1,245,500</span>
+                            <span class="stat-pill glass">Overdue: R 8,400</span>
+                        </div>
+                    </div>
+
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice #</th>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#INV-2024-001</td>
+                                    <td>Thabo Molefe</td>
+                                    <td>R 1,200</td>
+                                    <td>2024-01-07</td>
+                                    <td><span class="status-badge paid">Paid</span></td>
+                                    <td><button class="btn-icon"><i class="fas fa-file-pdf"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Subscriptions Section -->
+                <div id="billing-subscriptions-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Active Subscriptions</h3>
+                        <button class="btn btn-primary">+ New Subscription</button>
+                    </div>
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Plan</th>
+                                    <th>Status</th>
+                                    <th>Next Bill</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Thabo Molefe</td>
+                                    <td>50Mbps Uncapped</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td>2024-02-01</td>
+                                    <td><button class="btn-icon"><i class="fas fa-edit"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- RICA Portal View (Hidden by default) -->
+            <div id="rica-view" style="display: none;" class="content-view">
+                <div class="welcome-section">
+                    <h2>RICA Compliance Portal</h2>
+                    <p>Automated South African identity verification powered by Smile ID.</p>
+                </div>
+
+                <div class="rica-container glass">
+                    <div class="rica-status-card">
+                        <div class="rica-icon-large">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Self-Service Verification</h3>
+                        <p>Please have your ID Document (Green Book, Smart Card, or Passport) ready for a SmartSelfie™
+                            verification.</p>
+                        <button class="btn btn-primary" id="start-rica-btn">Start RICA Journey</button>
+                    </div>
+
+                    <div class="rica-history">
+                        <h4>Recent Verifications</h4>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Job ID</th>
+                                        <th>Customer</th>
+                                        <th>Status</th>
+                                        <th>Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>RICA-8F2D1A</td>
+                                        <td>Thabo Molefe</td>
+                                        <td><span class="status-badge active">Verified</span></td>
+                                        <td>Document Match (100%)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Network Hub View (Hidden by default) -->
+            <div id="network-view" style="display: none;" class="content-view">
+                <div class="welcome-section">
+                    <h2>Network Operations Center</h2>
+                    <p>Provisioning, FNO Portal Automation, and Core RADIUS Management.</p>
+                </div>
+
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-network-tab="provisioning">RADIUS Accounts</button>
+                    <button class="tab-btn" data-network-tab="proactive">Proactive Maintenance</button>
+                    <button class="tab-btn" data-network-tab="profiles">Speed Profiles</button>
+                    <button class="tab-btn" data-network-tab="infra">Core Infrastructure (NAS)</button>
+                    <button class="tab-btn" data-network-tab="automation">FNO Automation</button>
+                </div>
+
+                <!-- Provisioning Section -->
+                <div id="network-provisioning-section">
+                    <div class="network-grid">
+                        <div class="glass-card radius-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-server"></i> Active Radius Sessions</h3>
+                                <button class="btn btn-sm btn-primary">Refresh sessions</button>
+                            </div>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>NAS IP</th>
+                                            <th>Linked Hardware</th>
+                                            <th>Uptime</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>thabo@fibrehub.net</td>
+                                            <td>154.22.8.5</td>
+                                            <td><span class="badge">ONT-8821</span></td>
+                                            <td>14h 22m</td>
+                                            <td><span class="status-badge active">Online</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proactive Maintenance Section -->
+                <div id="network-proactive-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Fiber Health Monitoring | Proactive Signal Analysis</h3>
+                        <div class="proactive-stats">
+                            <span class="badge badge-warning">12 Warnings</span>
+                            <span class="badge badge-error">2 Critical</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="margin-top: 1.5rem;">
+                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-microscope"></i> "At-Risk" Customers (Signal
+                            Degradation)</h4>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Signal (RX)</th>
+                                        <th>Trend</th>
+                                        <th>Region</th>
+                                        <th>Action Taken</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="urgent-row">
+                                        <td>Lerato Khumalo</td>
+                                        <td><span style="color: #ef4444; font-weight: 700;">-27.2 dBm</span></td>
+                                        <td><i class="fas fa-arrow-trend-down" style="color: #ef4444;"></i> -2dB drop
+                                        </td>
+                                        <td>Cape Town</td>
+                                        <td><span class="badge badge-primary">Ticket Created (Auto)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jason Smith</td>
+                                        <td><span style="color: #facc15; font-weight: 700;">-24.8 dBm</span></td>
+                                        <td><i class="fas fa-arrow-trend-down" style="color: #facc15;"></i> Stable-ish
+                                        </td>
+                                        <td>JHB North</td>
+                                        <td><button class="btn btn-sm btn-outline">Notify FNO</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Speed Profiles Section -->
+                <div id="network-profiles-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Bandwidth Profiles (VSA Groups)</h3>
+                        <button class="btn btn-primary">+ Create Profile</button>
+                    </div>
+                    <div class="profiles-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div class="glass-card profile-card">
+                            <div class="card-header">
+                                <h4>50M/50M Uncapped</h4>
+                                <span class="badge badge-primary">ACTIVE</span>
+                            </div>
+                            <div class="profile-stats">
+                                <p><i class="fas fa-arrow-down"></i> 50 Mbps</p>
+                                <p><i class="fas fa-arrow-up"></i> 50 Mbps</p>
+                            </div>
+                            <div class="vsa-details" style="font-size: 0.8rem; margin-top: 1rem; opacity: 0.7;">
+                                <code>Mikrotik-Rate-Limit = 50M/50M</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infra Section -->
+                <div id="network-infra-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>NAS Infrastructure (Routers/BNG)</h3>
+                        <button class="btn btn-primary">+ Register NAS</button>
+                    </div>
+                    <!-- Infrastructure list here -->
+                </div>
+
+                <!-- Automation Section -->
+                <div id="network-automation-section" style="display: none;">
+                    <div class="glass-card automation-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-robot"></i> FNO Portal Automation Logs</h3>
+                            <span class="badge badge-primary">Agent Active</span>
+                        </div>
+                        <div class="automation-logs">
+                            <div class="log-entry">
+                                <span class="log-time">20:14</span>
+                                <span class="log-msg">Openserve: Checking availability for JHB-Central...</span>
+                            </div>
+                            <div class="log-entry success">
+                                <span class="log-time">20:12</span>
+                                <span class="log-msg">Vumatel: Order #VUMA-8812 Placed Successfully.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IoT Hub View (Hidden by default) -->
+            <div id="billing-view" style="display: none;" class="content-view">
+                <div class="welcome-section">
+                    <h2>Billing & Financial Control</h2>
+                    <p>Manage invoices, usage-based billing, and revenue cycles.</p>
+                </div>
+
+                <!-- Usage-to-Billing Sync Banner -->
+                <div class="glass shadow-hover"
+                    style="margin-bottom: 2rem; border-left: 5px solid var(--primary); padding: 1rem; display: flex; justify-content: space-between; align-items: center; background: rgba(34, 211, 238, 0.05);">
+                    <div>
+                        <h4 style="color: var(--primary);"><i class="fas fa-sync"></i> Radius Usage Sync</h4>
+                        <p style="font-size: 0.85rem; opacity: 0.8;">450 Accounts synced with CRM. 3 anomalies detected.
+                        </p>
+                    </div>
+                    <button class="btn btn-sm btn-outline">Review Sync</button>
+                </div>
+            </div>
+            <div id="iot-view" style="display: none;" class="content-view">
+                <div class="welcome-section">
+                    <h2>Smart Home & IoT Control</h2>
+                    <p>Manage ONTs, Routers, and Smart Devices.</p>
+                </div>
+
+                <div class="iot-grid">
+                    <div class="glass-card iot-inventory">
+                        <div class="card-header">
+                            <h3><i class="fas fa-list"></i> Connected Devices</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Device</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>WiFi 6 Router AX3000</td>
+                                        <td>Router</td>
+                                        <td><span class="status-badge active">Online</span></td>
+                                        <td><i class="fas fa-link" title="Linked to thabo@fibrehub.net"></i></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smart Security Cam (JHB-N)</td>
+                                        <td>Security VAS</td>
+                                        <td><span class="status-badge active">Online</span></td>
+                                        <td><i class="fas fa-video"></i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Hub View (Hidden by default) -->
+            <div id="stock-view" style="display: none;" class="content-view">
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-stock-tab="inventory">SOH & Local Warehouses</button>
+                    <button class="tab-btn" data-stock-tab="supply-chain">Global Supply Chain (SIT)</button>
+                    <button class="tab-btn" data-stock-tab="planning">Sales Planning</button>
+                    <button class="tab-btn" data-stock-tab="returns">Reverse Logistics</button>
+                </div>
+
+                <!-- Local Inventory Section -->
+                <div id="stock-inventory-section">
+                    <div class="section-header">
+                        <h3>Inventory Visibility | Local & Partner Warehouses</h3>
+                        <div class="warehouses-filter">
+                            <select class="glass-select">
+                                <option>All Warehouses</option>
+                                <option>Main JHB Warehouse</option>
+                                <option>Service Van - Thabo</option>
+                                <option>Partner: 3PL Logistics (External)</option>
+                            </select>
+                            <button class="btn btn-sm btn-outline">+ Add Warehouse</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom: 2rem;">
+                        <div class="stat-card glass">
+                            <h3>Total SOH Value</h3>
+                            <div class="stat-value">R 4,250,000</div>
+                            <div class="stat-subtext">Across 5 Local Sites</div>
+                        </div>
+                        <div class="stat-card glass">
+                            <h3>Partner Stock</h3>
+                            <div class="stat-value">450 Units</div>
+                            <div class="stat-subtext">Managed by External Partners</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Warehouse</th>
+                                    <th>SOH</th>
+                                    <th>Status</th>
+                                    <th>Partner Verified</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IOT-CAM-01</td>
+                                    <td>Main JHB</td>
+                                    <td>120</td>
+                                    <td><span class="status-badge active">In Stock</span></td>
+                                    <td>N/A</td>
+                                </tr>
+                                <tr>
+                                    <td>NET-RTR-W6</td>
+                                    <td>3PL Logistics (Ext)</td>
+                                    <td>330</td>
+                                    <td><span class="status-badge active">In Stock</span></td>
+                                    <td><i class="fas fa-check-circle" style="color: var(--primary);"></i> 2h ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Global Supply Chain (SIT) Section -->
+                <div id="stock-supply-chain-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Global Supply Chain Tracking | China to SA</h3>
+                    </div>
+                    <div class="shipment-timeline">
+                        <div class="shipment-card glass active">
+                            <div class="shipment-header">
+                                <h4>Shipment #FHub-CN-2024-08</h4>
+                                <span class="badge badge-primary">AT SEA</span>
+                            </div>
+                            <div class="shipment-info">
+                                <p><strong>Origin:</strong> Shenzhen Factory, China</p>
+                                <p><strong>Dest:</strong> Port of Durban, South Africa</p>
+                                <p><strong>ETA:</strong> 2024-02-15 (12 Days Remaining)</p>
+                            </div>
+                            <div class="shipment-items">
+                                <ul>
+                                    <li>WiFi 6 Routers x 500</li>
+                                    <li>IoT Security Hubs x 250</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Planning Section -->
+                <div id="stock-planning-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Sales Forecast vs Sell-Thru</h3>
+                    </div>
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Monthly Forecast</th>
+                                    <th>Actual Sales</th>
+                                    <th>Sell-Thru %</th>
+                                    <th>Historical Avg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>IOT-CAM-01</td>
+                                    <td>100</td>
+                                    <td>85</td>
+                                    <td><span class="progress-pill">85%</span></td>
+                                    <td>82%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard / CRM View (Hidden by default) -->
+            <div class="content-view" id="dashboard-view" style="display: none;">
+                <div class="welcome-section">
+                    <h2>Command Center Overview</h2>
+                    <p>Welcome back! Here's what's happening on your network today.</p>
+                </div>
+
+                <!-- AI Executive Insights Card -->
+                <div class="ai-insights-section glass shadow-hover"
+                    style="margin-bottom: 2rem; border: 1px solid var(--primary); border-radius: 20px; padding: 1.5rem; background: linear-gradient(rgba(34, 211, 238, 0.05), transparent);">
+                    <div class="card-header">
+                        <h3 style="color: var(--primary); display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-brain"></i> AI Executive Insights
+                        </h3>
+                        <span class="badge badge-primary">LIVE ANALYSIS</span>
+                    </div>
+                    <div class="insight-content">
+                        <p class="summary-text" style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem;">
+                            "<strong>Operational Health:</strong> Revenue up 12% + FCR (First Contact Resolution) at
+                            <strong>68.5%</strong>.
+                            Legacy systems still slow down ticket escalations. Recommend utilizing the
+                            <strong>Playwright Automation Agent</strong> for faster FNO logging."
+                        </p>
+                        <div class="insight-tags" style="display: flex; gap: 10px;">
+                            <span class="stat-pill glass" style="font-size: 0.75rem;"><i
+                                    class="fas fa-check-double"></i> FCR: 68.5%</span>
+                            <span class="stat-pill glass" style="font-size: 0.75rem; color: #facc15;"><i
+                                    class="fas fa-bolt"></i> Avg Res: 145m</span>
+                            <span class="stat-pill glass" style="font-size: 0.75rem; color: #22d3ee;"><i
+                                    class="fas fa-robot"></i> 15 Auto-Escalations</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card glass billing shadow-hover">
+                        <h3>Billing Hub</h3>
+                        <div class="stat-value">R 245,500</div>
+                        <div class="stat-trend positive">+12.4% vs last month</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%;"></div>
+                        </div>
+                        <div class="stat-footer">
+                            <span>Paid: R 233,500</span>
+                            <span>Pending: R 12,000</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass rica shadow-hover">
+                        <h3>RICA Compliance</h3>
+                        <div class="stat-value">98.2%</div>
+                        <div class="stat-subtext">5 pending verifications</div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 98%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card glass network shadow-hover">
+                        <h3>Network Status</h3>
+                        <div class="stat-value">HEALTY</div>
+                        <div class="stat-subtext">3 active FNO integrations</div>
+                        <div class="uptime">99.98% Uptime</div>
+                    </div>
+                </div>
+
+                <!-- CRM Table -->
+                <section class="data-section">
+                    <div class="section-header">
+                        <h3>Smart CRM | Active Subscribers</h3>
+                        <div class="filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Vumatel</button>
+                            <button class="filter-btn">Openserve</button>
+                            <button class="filter-btn">Frogfoot</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>FNO Provider</th>
+                                    <th>Service Plan</th>
+                                    <th>RICA Status</th>
+                                    <th>Last Contact</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <div class="avatar-small">TM</div>
+                                            <span>Thabo Molefe</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-openserve">Openserve</span></td>
+                                    <td>50/50 Uncapped</td>
+                                    <td><span class="status-dot healthy"></span> Verified</td>
+                                    <td>Today</td>
+                                    <td><i class="fas fa-ellipsis-h"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <div class="avatar-small">LK</div>
+                                            <span>Lerato Khumalo</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-vumatel">Vumatel</span></td>
+                                    <td>100/100 Uncapped</td>
+                                    <td><span class="status-dot healthy"></span> Verified</td>
+                                    <td>Yesterday</td>
+                                    <td><i class="fas fa-ellipsis-h"></i></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <div class="avatar-small">AS</div>
+                                            <span>Aarao Sobrmson</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-vumatel">Vumatel</span></td>
+                                    <td>200/200 Uncapped</td>
+                                    <td><span class="status-dot warning"></span> Pending</td>
+                                    <td>Today</td>
+                                    <td><i class="fas fa-ellipsis-h"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Network Broadcast Modal (Simple mockup) -->
+            <div id="broadcast-modal"
+                style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000; width: 400px;"
+                class="glass-card shadow-hover">
+                <div class="modal-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h3>Broadcast Network Alert</h3>
+                    <button class="btn-icon" onclick="this.parentElement.parentElement.style.display='none'"><i
+                            class="fas fa-times"></i></button>
+                </div>
+                <div class="modal-body">
+                    <label>Select FNO</label>
+                    <select class="glass-select" style="width: 100%; margin-bottom: 1rem;">
+                        <option>ALL FNOs</option>
+                        <option>Vumatel</option>
+                        <option>Openserve</option>
+                    </select>
+                    <label>Message to Customers</label>
+                    <textarea class="glass-select" style="width: 100%; height: 100px; margin-bottom: 1rem;"
+                        placeholder="e.g. Total outage in JHB North due to fiber break..."></textarea>
+                    <button class="btn btn-primary" style="width: 100%;">Send to 1,245 Customers</button>
+                </div>
+            </div>
+
+            <!-- Support Hub View (Hidden by default) -->
+            <div id="support-view" style="display: none;" class="content-view">
+                <div class="welcome-section">
+                    <h2>Support & Ticketing Center</h2>
+                    <p>Manage customer queries and perform remote troubleshooting.</p>
+                </div>
+
+                <div class="section-tabs">
+                    <button class="tab-btn active" data-support-tab="tickets">Active Tickets</button>
+                    <button class="tab-btn" data-support-tab="kb">Knowledge Base</button>
+                    <button class="tab-btn" data-support-tab="diagnostics">Remote Diagnostics</button>
+                </div>
+
+                <div id="support-tickets-section">
+                    <div class="section-header">
+                        <h3>Customer Support Tickets</h3>
+                        <div class="support-actions">
+                            <button class="btn btn-secondary"
+                                onclick="document.getElementById('broadcast-modal').style.display='block'">
+                                <i class="fas fa-bullhorn"></i> Broadcast Alert
+                            </button>
+                            <button class="btn btn-primary">+ New Ticket</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container glass">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Ticket ID</th>
+                                    <th>Customer</th>
+                                    <th>Subject</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Assigned To</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="urgent-row">
+                                    <td>#TK-8821</td>
+                                    <td>Thabo Molefe</td>
+                                    <td>No internet after power cut</td>
+                                    <td><span class="priority-high">URGENT</span></td>
+                                    <td><span class="status-badge warning">In Progress</span></td>
+                                    <td>Self</td>
+                                    <td style="display: flex; gap: 5px;">
+                                        <button class="btn-icon" title="Escalate to FNO Portal (Auto-log)"><i
+                                                class="fas fa-robot"></i></button>
+                                        <button class="btn-icon" title="Reply"><i class="fas fa-reply"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#TK-8815</td>
+                                    <td>Lerato Khumalo</td>
+                                    <td>Invoice query - January</td>
+                                    <td><span>Normal</span></td>
+                                    <td><span class="status-badge active">Open</span></td>
+                                    <td>Support Team</td>
+                                    <td><button class="btn btn-sm btn-outline">Message</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Remote Diagnostics (Mock) -->
+                <div id="support-diagnostics-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>Remote ONT/Router Diagnostics</h3>
+                    </div>
+                    <div class="diag-tool glass" style="padding: 2rem; border-radius: 20px;">
+                        <div class="diag-header" style="display: flex; gap: 10px; margin-bottom: 2rem;">
+                            <input type="text" class="glass-select" placeholder="Enter Customer Phone or Account #"
+                                style="flex: 1;">
+                            <button class="btn btn-primary">Run Health Check</button>
+                        </div>
+                        <div class="diag-results">
+                            <div class="diag-step success" style="margin-bottom: 10px; color: #10b981;"><i
+                                    class="fas fa-check-circle"></i> FNO Link Status: UP</div>
+                            <div class="diag-step success" style="margin-bottom: 10px; color: #10b981;"><i
+                                    class="fas fa-check-circle"></i> Radius Authentication: SUCCESS</div>
+                            <div class="diag-step error" style="color: #ef4444;"><i class="fas fa-times-circle"></i>
+                                Local WiFi AP: OFFLINE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
