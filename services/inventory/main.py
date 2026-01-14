@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, date
 import logging
 
-app = FastAPI(title="FibreHub Inventory Service", version="0.1.0")
+app = FastAPI(title="CoreConnect Inventory Service", version="0.1.0")
 
 # --- Models ---
 class ProductBase(BaseModel):
@@ -52,7 +52,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub Inventory Service is active"}
+    return {"message": "CoreConnect Inventory Service is active"}
 
 @app.post("/products", response_model=Product, status_code=status.HTTP_201_CREATED)
 async def create_product(product: ProductBase, tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

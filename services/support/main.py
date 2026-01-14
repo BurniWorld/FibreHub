@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 import logging
 
-app = FastAPI(title="FibreHub Support Service", version="0.1.0")
+app = FastAPI(title="CoreConnect Support Service", version="0.1.0")
 
 # --- Models ---
 class TicketCreate(BaseModel):
@@ -29,7 +29,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub Support Service is active"}
+    return {"message": "CoreConnect Support Service is active"}
 
 @app.post("/tickets", status_code=status.HTTP_201_CREATED)
 async def create_ticket(ticket: TicketCreate, tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

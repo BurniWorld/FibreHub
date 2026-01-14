@@ -4,7 +4,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, date
 
-app = FastAPI(title="FibreHub Sales Service", version="0.1.0")
+app = FastAPI(title="CoreConnect Sales Service", version="0.1.0")
 
 # --- Models ---
 class LeadBase(BaseModel):
@@ -53,7 +53,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub Sales Service is active"}
+    return {"message": "CoreConnect Sales Service is active"}
 
 @app.get("/leads", response_model=List[Lead])
 async def list_leads(tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

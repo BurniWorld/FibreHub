@@ -5,7 +5,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime
 
-app = FastAPI(title="FibreHub CRM Service", version="0.1.0")
+app = FastAPI(title="CoreConnect CRM Service", version="0.1.0")
 
 # --- Models ---
 class ContactBase(BaseModel):
@@ -36,7 +36,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub CRM Service is active"}
+    return {"message": "CoreConnect CRM Service is active"}
 
 @app.get("/contacts", response_model=List[Contact])
 async def list_contacts(tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

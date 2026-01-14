@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, date
 import logging
 
-app = FastAPI(title="FibreHub Billing Service", version="0.1.0")
+app = FastAPI(title="CoreConnect Billing Service", version="0.1.0")
 
 # --- Models ---
 class PlanBase(BaseModel):
@@ -52,7 +52,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub Billing Service is active"}
+    return {"message": "CoreConnect Billing Service is active"}
 
 @app.post("/plans", response_model=Plan, status_code=status.HTTP_201_CREATED)
 async def create_plan(plan: PlanBase, tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

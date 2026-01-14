@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 import logging
 
-app = FastAPI(title="FibreHub Network Service", version="0.1.0")
+app = FastAPI(title="CoreConnect Network Service", version="0.1.0")
 
 # --- Models ---
 class RadiusAccountCreate(BaseModel):
@@ -60,7 +60,7 @@ async def get_active_sessions(tenant_id: uuid.UUID = Depends(get_current_tenant_
     """Query radacct for live sessions"""
     return [
         {
-            "username": "thabo@fibrehub.net",
+            "username": "thabo@CoreConnect.net",
             "nas_ip": "154.22.8.5",
             "uptime": "14h 22m",
             "input_octets": 4523000,

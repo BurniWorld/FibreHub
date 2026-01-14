@@ -1,33 +1,39 @@
-# FibreHub: The Ultimate ISP Operations Platform (SA Edition) 🚀🏜️🇿🇦
+# CoreConnect: The Premier ISP Operating System (SA Edition) 🚀🏜️🇿🇦
 
-FibreHub is a carrier-grade, microservice-based operations platform designed specifically for South African ISPs. It unifies CRM, Sales, Billing, Network provisioning, and FNO automation into a single, high-performance ecosystem.
+CoreConnect is a carrier-grade, microservice-based operations platform designed specifically for South African ISPs. It unifies CRM, Sales, Marketing, Billing, Network provisioning, and FNO automation into a single, high-performance ecosystem.
 
-## 🏗️ Core Modules
+## 🏗️ Core Connect Modules
 
-### 1. Sales & CRM Hub (`/services/sales`, `/services/crm`)
-*   **Lead Management**: Track and convert prospects.
-*   **Deal Flow**: Manage the sales pipeline.
+### 1. Sales Connect & CRM Connect (`/services/sales`, `/services/crm`)
+*   **Lead Management**: Track and convert prospects through a visual pipeline.
+*   **Coverage Qualification**: Integrated maps for all major service providers.
 *   **Subscriber 360**: Full CRM with RICA verification status.
 
-### 2. Billing & Financials (`/services/billing`)
+### 2. Marketing Connect (`/services/marketing`)
+*   **AI Content Studio**: Automated content generation for social and email.
+*   **Campaign Management**: Multi-channel lead nurturing.
+
+### 3. Billing Connect (`/services/billing`)
 *   **Automated Invoicing**: Generation of invoices in ZAR.
 *   **Paystack Integration**: Built-in logic for SA's leading payment gateway.
-*   **Usage-Based Sync**: Live link between RADIUS data and customer billing.
+*   **Auto-Suspension**: Logic-based service control based on payment status.
 
-### 3. Network Operations Center - NOC (`/services/network`, `/services/iot`)
-*   **RADIUS Hub**: Full FreeRADIUS SQL integration with real-time session monitoring.
-*   **Hardware-Radius Link**: Connects physical ONT/Router serials to logical accounts.
-*   **FNO Master Portal**: Monitoring streams via API, Scraper, and Email parsing for Vumatel, Openserve, Frogfoot, etc.
-*   **Proactive Health**: Inference-based monitoring for fiber signal degradation.
+### 4. Network Connect & IoT Connect (`/services/network`, `/services/iot`)
+*   **RADIUS Management**: Full FreeRADIUS SQL integration with real-time monitoring.
+*   **Hardware Control**: Proactive performance monitoring for CPEs and ONTs.
+*   **FNO Master Portal**: Seamless activations for Vumatel, Openserve, Frogfoot, etc.
 
-### 4. Support & Ticketing (`/services/support`)
-*   **FCR Tracking**: Monitor First Contact Resolution performance.
-*   **Auto-Escalation**: Playwright-based automation to log tickets on legacy FNO portals.
-*   **Network Broadcasting**: Suburb-targeted outage notifications.
+### 5. Support Connect (`/services/support`)
+*   **Rapid Ticketing**: SLA-driven ticket management.
+*   **Remote Diagnosis**: One-click ONT health checks and diagnostics.
 
-### 5. AI Analytics Engine (`/services/analytics`)
-*   **Executive Insights**: High-level summaries of churn, revenue, and technical health.
-*   **Smart Upsell**: Predicts customer needs based on usage patterns.
+### 6. Call Center Connect (`/services/call_center`)
+*   **Sentiment AI**: Real-time analysis of agent-customer interactions.
+*   **Agent Whisperer**: AI-driven prompts during live calls.
+
+### 7. Talent Connect (`/services/staff`)
+*   **Performance Tracking**: Individual and team KPI monitoring.
+*   **Staff Sentiment**: AI-driven morale and burnout analysis.
 
 ---
 
@@ -38,7 +44,7 @@ FibreHub is a carrier-grade, microservice-based operations platform designed spe
 *   **Automation**: Playwright (Browser-based FNO adapters)
 
 ## 📡 FNO Proactive Intelligence Layer
-Unlike traditional systems, FibreHub uses a multi-vector listener to track FNO health:
+Unlike traditional systems, CoreConnect uses a multi-vector listener to track FNO health:
 1. **APIs**: Direct B2B hooks.
 2. **Scrapers**: Real-time keyword monitoring of FNO status pages.
 3. **Email Parsers**: Automatically ingests and maps NOC notifications to affected customer IDs.

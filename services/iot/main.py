@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 import logging
 
-app = FastAPI(title="FibreHub IoT Service", version="0.1.0")
+app = FastAPI(title="CoreConnect IoT Service", version="0.1.0")
 
 # --- Models ---
 class DeviceBase(BaseModel):
@@ -63,7 +63,7 @@ async def analyze_fiber_signal(device_id: uuid.UUID, rx_power: float):
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub IoT Service is active"}
+    return {"message": "CoreConnect IoT Service is active"}
 
 @app.post("/telemetry/signal", status_code=status.HTTP_202_ACCEPTED)
 async def ingest_signal_telemetry(data: SignalTelemetry, background_tasks: BackgroundTasks):

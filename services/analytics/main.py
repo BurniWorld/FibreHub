@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 import logging
 
-app = FastAPI(title="FibreHub AI Analytics Service", version="0.1.0")
+app = FastAPI(title="CoreConnect AI Analytics Service", version="0.1.0")
 
 # --- Models ---
 class ExecutiveInsight(BaseModel):
@@ -21,7 +21,7 @@ async def get_current_tenant_id():
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub AI Analytics Service is active"}
+    return {"message": "CoreConnect AI Analytics Service is active"}
 
 @app.get("/executive-summary")
 async def get_summary(tenant_id: uuid.UUID = Depends(get_current_tenant_id)):

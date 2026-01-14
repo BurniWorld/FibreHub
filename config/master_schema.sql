@@ -1,5 +1,5 @@
--- FibreHub Master Database Schema
--- Focus: Multi-tenancy, Smart CRM, and Foundation for Billing/Network Hubs
+-- CoreConnect Master Database Schema
+-- Focus: Multi-tenancy, Smart CRM, and Foundation for Billing/Network Connect
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -519,6 +519,85 @@ CREATE TABLE knowledge_base (
     category TEXT,
     tags TEXT[],
     is_published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 13. HR & STAFF MANAGEMENT
+CREATE TABLE employees (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES users(id) ON DELETE SET NULL, -- Link to system user if they have access
+    employee_id TEXT UNIQUE NOT NULL, -- Internal ID (e.g. STF-001)
+    full_name TEXT NOT NULL,
+    job_title TEXT NOT NULL,
+    department TEXT NOT NULL, -- Support, Sales, Network, HR, Admin
+    hire_date DATE NOT NULL,
+    status TEXT DEFAULT 'ACTIVE', -- ACTIVE, ON_LEAVE, TERMINATED
+    profile_photo_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE onboarding_tasks (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    task_name TEXT NOT NULL,
+    is_completed BOOLEAN DEFAULT FALSE,
+    due_date DATE,
+    completed_at TIMESTAMP WITH TIME ZONE
+);
+
+CREATE TABLE training_records (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    course_name TEXT NOT NULL,
+    certification_earned TEXT,
+    expiry_date DATE,
+    completion_date DATE NOT NULL,
+    grade TEXT
+);
+
+CREATE TABLE performance_metrics (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    period_start DATE NOT NULL,
+    period_end DATE NOT NULL,
+    tickets_resolved INTEGER DEFAULT 0,
+    avg_resolution_time_minutes INTEGER DEFAULT 0,
+    fcr_rate DECIMAL(5,2) DEFAULT 0.00,
+    nps_score DECIMAL(5,2) DEFAULT 0.00,
+    kpi_score DECIMAL(5,2) DEFAULT 0.00, -- Aggregate HR score (1-10)
+    manager_feedback TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE disciplinary_records (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    case_type TEXT NOT NULL, -- VERBAL_WARNING, WRITTEN_WARNING, FINAL_WARNING, HEARING
+    description TEXT NOT NULL,
+    consequence TEXT,
+    case_date DATE NOT NULL,
+    status TEXT DEFAULT 'OPEN', -- OPEN, CLOSED, APPEALED
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE staff_sentiment_logs (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    sentiment_score DECIMAL(3,2) NOT NULL, -- 0 (Neg) to 1 (Pos)
+    detected_keywords TEXT[],
+    attrition_risk_level TEXT DEFAULT 'LOW', -- LOW, MEDIUM, HIGH
+    analysis_date DATE DEFAULT CURRENT_DATE,
+    source_type TEXT -- INTERNAL_NOTES, PERFORMANCE_REVIEW, PEER_FEEDBACK
+);
+
+CREATE TABLE exit_interviews (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    employee_id UUID REFERENCES employees(id) ON DELETE CASCADE,
+    reason_for_leaving TEXT,
+    feedback_on_management TEXT,
+    would_recommend BOOLEAN,
+    exit_date DATE NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 

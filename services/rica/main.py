@@ -8,7 +8,7 @@ import hashlib
 import hmac
 import os
 
-app = FastAPI(title="FibreHub RICA Service", version="0.1.0")
+app = FastAPI(title="CoreConnect RICA Service", version="0.1.0")
 
 # --- SMILE ID CONFIG ---
 SMILE_ID_PARTNER_ID = os.getenv("SMILE_ID_PARTNER_ID", "mock_partner")
@@ -44,7 +44,7 @@ def generate_smile_id_signature(timestamp: str):
 # --- Routes ---
 @app.get("/")
 async def root():
-    return {"message": "FibreHub RICA Service (Smile ID) is active"}
+    return {"message": "CoreConnect RICA Service (Smile ID) is active"}
 
 @app.post("/sessions", response_model=RicaSessionResponse)
 async def create_rica_session(req: RicaSessionCreate, tenant_id: uuid.UUID = Depends(get_current_tenant_id)):
