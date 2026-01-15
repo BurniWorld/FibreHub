@@ -53,6 +53,7 @@ h3 {
 .gradient-text {
     background: linear-gradient(90deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -72,6 +73,7 @@ h3 {
 /* --- Navigation --- */
 .portal-nav {
     padding: 24px 0;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--glass-border);
     position: sticky;
@@ -186,6 +188,7 @@ h3 {
     border: 1px solid var(--glass-border);
     padding: 32px;
     border-radius: 32px;
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
 }
 
