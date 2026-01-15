@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -157,6 +157,11 @@ const formatCurrency = (value: number) => {
 export function BillingModule() {
   const [activeTab, setActiveTab] = useState("overview")
   const [searchTerm, setSearchTerm] = useState("")
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -197,7 +202,7 @@ export function BillingModule() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Revenue</p>
-                <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(3600000)}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{!mounted ? "R --" : formatCurrency(3600000)}</p>
                 <div className="mt-1 flex items-center gap-1 text-emerald-400">
                   <TrendingUp className="h-3 w-3" />
                   <span className="text-xs">+7.5% vs last month</span>
@@ -233,7 +238,7 @@ export function BillingModule() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Outstanding</p>
-                <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(190000)}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{!mounted ? "R --" : formatCurrency(190000)}</p>
                 <div className="mt-1 flex items-center gap-1 text-amber-400">
                   <Clock className="h-3 w-3" />
                   <span className="text-xs">1,245 accounts</span>
@@ -251,7 +256,7 @@ export function BillingModule() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Overdue Amount</p>
-                <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(42000)}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{!mounted ? "R --" : formatCurrency(42000)}</p>
                 <div className="mt-1 flex items-center gap-1 text-red-400">
                   <TrendingDown className="h-3 w-3" />
                   <span className="text-xs">-12% reduced</span>
@@ -414,7 +419,7 @@ export function BillingModule() {
                       <tr key={invoice.id} className="border-b border-border last:border-0">
                         <td className="px-4 py-3 text-sm font-medium text-foreground">{invoice.id}</td>
                         <td className="px-4 py-3 text-sm text-foreground">{invoice.customer}</td>
-                        <td className="px-4 py-3 text-sm text-foreground">{formatCurrency(invoice.amount)}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{!mounted ? "R --" : formatCurrency(invoice.amount)}</td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{invoice.date}</td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{invoice.method}</td>
                         <td className="px-4 py-3">{getStatusBadge(invoice.status)}</td>
@@ -466,7 +471,7 @@ export function BillingModule() {
                       </div>
                     </div>
                     <div className="text-center">
-                      <p className="font-semibold text-foreground">{formatCurrency(item.amount)}</p>
+                      <p className="font-semibold text-foreground">{!mounted ? "R --" : formatCurrency(item.amount)}</p>
                       <p className="text-xs text-red-400">{item.daysPastDue} days overdue</p>
                     </div>
                     <div className="text-center">
@@ -539,8 +544,8 @@ export function BillingModule() {
                 {agingData.map((item) => (
                   <div key={item.range} className="rounded-lg border border-border bg-secondary/30 p-3 text-center">
                     <p className="text-sm text-muted-foreground">{item.range}</p>
-                    <p className="mt-1 font-semibold text-foreground">{formatCurrency(item.amount)}</p>
-                    <p className="text-xs text-muted-foreground">{item.customers.toLocaleString()} customers</p>
+                    <p className="mt-1 font-semibold text-foreground">{!mounted ? "R --" : formatCurrency(item.amount)}</p>
+                    <p className="text-xs text-muted-foreground">{!mounted ? "--" : item.customers.toLocaleString()} customers</p>
                   </div>
                 ))}
               </div>

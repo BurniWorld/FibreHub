@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { type LucideIcon, TrendingUp, TrendingDown } from "lucide-react"
 
@@ -20,9 +21,17 @@ export function StatCard({
   description,
   isCurrency = false,
 }: StatCardProps) {
-  const displayValue = isCurrency
-    ? `R ${Number.parseFloat(value).toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`
-    : value
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const displayValue = !mounted
+    ? (isCurrency ? "R --" : value)
+    : isCurrency
+      ? `R ${Number.parseFloat(value.replace(/[^0-9.]/g, "")).toLocaleString("en-ZA", { maximumFractionDigits: 0 })}`
+      : value
 
   return (
     <div className="rounded-xl border border-border bg-card p-5">

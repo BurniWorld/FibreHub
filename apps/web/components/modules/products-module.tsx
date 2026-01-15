@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -110,6 +110,11 @@ const formatCurrency = (value: number) => {
 export function ProductsModule() {
   const [activeTab, setActiveTab] = useState("overview")
   const [searchTerm, setSearchTerm] = useState("")
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -153,7 +158,7 @@ export function ProductsModule() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Total Subscribers</p>
-                <p className="mt-1 text-2xl font-bold text-foreground">{totalSubscribers.toLocaleString()}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{!mounted ? "--" : totalSubscribers.toLocaleString()}</p>
                 <div className="mt-1 flex items-center gap-1 text-emerald-400">
                   <TrendingUp className="h-3 w-3" />
                   <span className="text-xs">+842 this month</span>
@@ -171,7 +176,7 @@ export function ProductsModule() {
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Monthly Recurring Revenue</p>
-                <p className="mt-1 text-2xl font-bold text-foreground">{formatCurrency(totalMRR)}</p>
+                <p className="mt-1 text-2xl font-bold text-foreground">{!mounted ? "R --" : formatCurrency(totalMRR)}</p>
                 <div className="mt-1 flex items-center gap-1 text-emerald-400">
                   <TrendingUp className="h-3 w-3" />
                   <span className="text-xs">+5.2% growth</span>
@@ -191,7 +196,7 @@ export function ProductsModule() {
                 <p className="text-sm text-muted-foreground">Active Bundles</p>
                 <p className="mt-1 text-2xl font-bold text-foreground">{bundles.length}</p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  {bundles.reduce((s, b) => s + b.subscribers, 0).toLocaleString()} subscribers
+                  {!mounted ? "--" : bundles.reduce((s, b) => s + b.subscribers, 0).toLocaleString()} subscribers
                 </p>
               </div>
               <div className="rounded-lg bg-purple-500/20 p-2">
@@ -364,9 +369,9 @@ export function ProductsModule() {
                           </div>
                         </td>
                         <td className="px-4 py-3 text-sm text-muted-foreground">{product.category}</td>
-                        <td className="px-4 py-3 text-sm text-foreground">{formatCurrency(product.price)}/mo</td>
-                        <td className="px-4 py-3 text-sm text-foreground">{product.subscribers.toLocaleString()}</td>
-                        <td className="px-4 py-3 text-sm text-foreground">{formatCurrency(product.mrr)}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{!mounted ? "R --" : formatCurrency(product.price)}/mo</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{!mounted ? "--" : product.subscribers.toLocaleString()}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{!mounted ? "R --" : formatCurrency(product.mrr)}</td>
                         <td className="px-4 py-3">
                           <Badge
                             className={
@@ -432,11 +437,11 @@ export function ProductsModule() {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <p className="text-2xl font-bold text-foreground">{formatCurrency(bundle.price)}</p>
+                      <p className="text-2xl font-bold text-foreground">{!mounted ? "R --" : formatCurrency(bundle.price)}</p>
                       <p className="text-xs text-muted-foreground">per month</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold text-foreground">{bundle.subscribers.toLocaleString()}</p>
+                      <p className="font-semibold text-foreground">{!mounted ? "--" : bundle.subscribers.toLocaleString()}</p>
                       <p className="text-xs text-muted-foreground">subscribers</p>
                     </div>
                   </div>

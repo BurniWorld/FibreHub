@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -89,6 +89,11 @@ const technicianStats = {
 
 export function PortalModule() {
   const [activeTab, setActiveTab] = useState("overview")
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <div className="space-y-6">
@@ -351,7 +356,7 @@ export function PortalModule() {
                   </div>
                   <div className="mt-4 grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <p className="text-lg font-semibold text-foreground">{agent.conversations.toLocaleString()}</p>
+                      <p className="text-lg font-semibold text-foreground">{!mounted ? "--" : agent.conversations.toLocaleString()}</p>
                       <p className="text-xs text-muted-foreground">Conversations</p>
                     </div>
                     <div>
@@ -414,7 +419,7 @@ export function PortalModule() {
                             {page.status}
                           </Badge>
                         </td>
-                        <td className="px-4 py-3 text-sm text-foreground">{page.views.toLocaleString()}</td>
+                        <td className="px-4 py-3 text-sm text-foreground">{!mounted ? "--" : page.views.toLocaleString()}</td>
                         <td className="px-4 py-3 text-sm text-foreground">{page.conversions}</td>
                         <td className="px-4 py-3 text-sm text-foreground">{page.rate}</td>
                         <td className="px-4 py-3">
