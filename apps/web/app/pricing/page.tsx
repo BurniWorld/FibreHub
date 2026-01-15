@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import Link from "next/link"
 import {
     DollarSign,
@@ -237,6 +237,11 @@ export default function PricingPage() {
     const [customerCounts, setCustomerCounts] = useState<Record<string, number>>({})
     const [activeView, setActiveView] = useState<ViewType>("customer-platform")
     const [audienceTab, setAudienceTab] = useState<"business" | "individual">("business")
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const toggleModule = (id: string, tier: TierType) => {
         setSelectedModules(prev => ({
@@ -306,10 +311,10 @@ export default function PricingPage() {
                                     <div className="mb-4">
                                         <span className="text-xs text-muted-foreground">Starts at</span>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-3xl font-bold">R{billingPeriod === "annually" ? bundle.annualPrice.toLocaleString() : bundle.basePrice.toLocaleString()}</span>
+                                            <span className="text-3xl font-bold">R{!mounted ? "--" : (billingPeriod === "annually" ? bundle.annualPrice.toLocaleString() : bundle.basePrice.toLocaleString())}</span>
                                             <span className="text-muted-foreground">/mo</span>
                                         </div>
-                                        {billingPeriod === "annually" && (
+                                        {billingPeriod === "annually" && mounted && (
                                             <span className="text-xs text-muted-foreground line-through">R{bundle.basePrice.toLocaleString()}/mo</span>
                                         )}
                                     </div>
@@ -344,7 +349,7 @@ export default function PricingPage() {
                                         Talk to Sales
                                     </Button>
 
-                                    <p className="text-xs text-muted-foreground mb-6">{bundle.credits.toLocaleString()} OmniDome Credits</p>
+                                    <p className="text-xs text-muted-foreground mb-6">{!mounted ? "--" : bundle.credits.toLocaleString()} OmniDome Credits</p>
 
                                     <div className="text-sm text-muted-foreground mb-4">
                                         {key === "professional" ? "Starter" : "Professional"} Customer Platform, plus:
@@ -445,7 +450,7 @@ export default function PricingPage() {
                                                 </div>
                                             </div>
                                             <p className="text-xs text-muted-foreground mt-2">
-                                                Includes {mod.customers.toLocaleString()} customers. Additional customers sold in increments of 1,000 from R50/month.
+                                                Includes {!mounted ? "--" : mod.customers.toLocaleString()} customers. Additional customers sold in increments of 1,000 from R50/month.
                                             </p>
                                         </div>
                                     )}
@@ -510,7 +515,7 @@ export default function PricingPage() {
                                         <div className="flex justify-between items-center mb-4">
                                             <span className="font-semibold">Estimated Total</span>
                                             <div className="text-right">
-                                                <div className="text-2xl font-bold">R{totalMonthly.toLocaleString()}</div>
+                                                <div className="text-2xl font-bold">R{!mounted ? "0" : totalMonthly.toLocaleString()}</div>
                                                 <div className="text-xs text-muted-foreground">/month</div>
                                             </div>
                                         </div>
@@ -541,10 +546,10 @@ export default function PricingPage() {
                             {Object.entries(individualPlans).map(([key, plan]) => (
                                 <div key={key} className={cn(
                                     "border rounded-2xl p-8",
-                                    key === "growth" ? "border-emerald-500 bg-emerald-500/5" : "border-border bg-card"
+                                    key === "growth" ? "border-primary bg-primary/5" : "border-border bg-card"
                                 )}>
                                     {key === "growth" && (
-                                        <div className="text-xs font-semibold text-emerald-500 uppercase tracking-wider mb-2">
+                                        <div className="text-xs font-bold text-primary uppercase tracking-[2px] mb-2">
                                             Most Popular
                                         </div>
                                     )}
@@ -554,7 +559,7 @@ export default function PricingPage() {
                                     <div className="mb-6">
                                         <div className="flex items-baseline gap-1">
                                             <span className="text-4xl font-bold">
-                                                {plan.basePrice === 0 ? "Free" : `R${plan.basePrice.toLocaleString()}`}
+                                                {plan.basePrice === 0 ? "Free" : `R${!mounted ? "--" : plan.basePrice.toLocaleString()}`}
                                             </span>
                                             {plan.basePrice > 0 && <span className="text-muted-foreground">/mo</span>}
                                         </div>
@@ -572,7 +577,7 @@ export default function PricingPage() {
                                     <ul className="space-y-3">
                                         {plan.features.map((feat, idx) => (
                                             <li key={idx} className="flex items-center gap-3 text-sm">
-                                                <Check className="h-4 w-4 text-emerald-500" />
+                                                <Check className="h-4 w-4 text-primary" />
                                                 <span>{feat}</span>
                                             </li>
                                         ))}
