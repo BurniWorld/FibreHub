@@ -14,6 +14,26 @@ This directory contains specialized skills that extend the AI agent's capabiliti
 | **[sa-compliance](./sa-compliance/SKILL.md)** | Implement RICA and POPIA compliance |
 | **[payment-integration](./payment-integration/SKILL.md)** | Integrate Paystack for ZAR billing |
 
+## 2026 Web Design Standards (NEW)
+
+These skills define modern, cutting-edge design principles based on 2026 web design trends.
+
+| Skill | Description |
+|-------|-------------|
+| **[web-design-2026](./web-design-2026/SKILL.md)** | Core 2026 design principles: organic layouts, kinetic typography, immersion |
+| **[growth-ux](./growth-ux/SKILL.md)** | Growth-led UX framework: conversion optimization, speed UX, trust signals |
+| **[typography](./typography/SKILL.md)** | AI-enhanced typography: variable fonts, typewriter effects, animated text |
+| **[performance](./performance/SKILL.md)** | Performance budgets, Core Web Vitals, optimization techniques |
+| **[accessibility](./accessibility/SKILL.md)** | WCAG 2.1 AA compliance, inclusive design, testing methodology |
+
+### Key Metrics to Remember
+
+- **94%** of first impressions are design-based
+- **0.05 seconds** to form an opinion
+- **0.1s faster** = 8.4% higher conversion
+- **53%** abandon at 3+ seconds load time
+- **94.8%** of homepages have accessibility failures
+
 ## UI/UX Skills
 
 | Skill | Description |
