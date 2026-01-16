@@ -144,6 +144,51 @@ const modules = [
     { id: "portal", icon: Globe, name: "Portal Hub", description: "Customer self-service portal and white-label configurations.", category: "Core", color: "from-sky-400 via-blue-500 to-indigo-600", slug: "portal" },
 ]
 
+// Solutions by category
+const solutionsByCategory: Record<string, { title: string; description: string; slug: string; icon: any; color: string }[]> = {
+    Core: [
+        { title: "Unified Communications", description: "Bring all team communications into one platform", slug: "communication", icon: MessageSquare, color: "from-blue-500 to-cyan-500" },
+        { title: "Self-Service Portal", description: "White-label customer portal with your branding", slug: "portal", icon: Globe, color: "from-sky-500 to-blue-500" },
+    ],
+    Revenue: [
+        { title: "Accelerate Sales", description: "Close deals faster with AI-powered insights", slug: "sales", icon: DollarSign, color: "from-green-500 to-emerald-500" },
+        { title: "Marketing Automation", description: "Generate and nurture leads at scale", slug: "marketing", icon: Megaphone, color: "from-fuchsia-500 to-pink-500" },
+        { title: "Automated Billing", description: "Streamline invoicing and collections", slug: "billing", icon: Receipt, color: "from-teal-500 to-green-500" },
+    ],
+    Customer: [
+        { title: "360° Customer View", description: "Complete visibility into customer relationships", slug: "crm", icon: Users, color: "from-violet-500 to-purple-500" },
+        { title: "Omnichannel Support", description: "Deliver exceptional service across all channels", slug: "support", icon: Headset, color: "from-orange-500 to-amber-500" },
+        { title: "Call Center Excellence", description: "Empower agents with intelligent tools", slug: "call-center", icon: Phone, color: "from-indigo-500 to-violet-500" },
+    ],
+    Operations: [
+        { title: "Network Monitoring", description: "Real-time visibility into infrastructure health", slug: "network", icon: Wifi, color: "from-cyan-500 to-blue-500" },
+        { title: "SA Compliance", description: "RICA and POPIA compliance built-in", slug: "compliance", icon: ShieldCheck, color: "from-slate-500 to-zinc-500" },
+        { title: "Team Management", description: "HR, recruitment, and performance tracking", slug: "talent", icon: UserCog, color: "from-amber-500 to-yellow-500" },
+    ],
+    Analytics: [
+        { title: "Churn Prevention", description: "87% accurate AI prediction to stop churn", slug: "retention", icon: HeartHandshake, color: "from-rose-500 to-pink-500" },
+    ]
+}
+
+// Resources
+const resourceItems = {
+    featured: [
+        { icon: Sparkles, title: "Why OmniDome", description: "See what makes us different", href: "/resources/why-omnidome" },
+        { icon: BookOpen, title: "Blog", description: "Latest insights and updates", href: "#" },
+        { icon: FileText, title: "Documentation", description: "Technical guides and API docs", href: "#" },
+    ],
+    services: [
+        { icon: Rocket, title: "Onboarding", description: "Get up and running quickly", href: "/resources/services", price: "From R15,000" },
+        { icon: GraduationCap, title: "Customer Training", description: "Master every module", href: "/resources/services", price: "From R8,000" },
+        { icon: Zap, title: "Migration", description: "Seamless data transfer", href: "/resources/services", price: "From R12,000" },
+    ],
+    partners: [
+        { icon: Handshake, title: "Reseller Program", description: "Earn up to 35% commission", href: "/resources/partners", price: "R5,000/year" },
+        { icon: Building2, title: "Solutions Partner", description: "Implementation & consulting", href: "/resources/partners", price: "R15,000/year" },
+        { icon: Zap, title: "Integration Partner", description: "Build apps and integrations", href: "/resources/partners", price: "R8,000/year" },
+    ]
+}
+
 const testimonials = [
     { name: "Thabo Molefe", role: "CEO, FibreLink SA", quote: "OmniDome reduced our churn by 40% in just 3 months. The AI predictions are incredibly accurate.", avatar: "TM", rating: 5 },
     { name: "Sarah van der Berg", role: "Operations Director, Metro Fibre", quote: "Finally, one platform for everything. Our team efficiency has doubled since switching to OmniDome.", avatar: "SV", rating: 5 },
@@ -161,6 +206,8 @@ const trustedBy = [
 export default function LandingPage() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [productMenuOpen, setProductMenuOpen] = useState(false)
+    const [solutionMenuOpen, setSolutionMenuOpen] = useState(false)
+    const [resourceMenuOpen, setResourceMenuOpen] = useState(false)
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -267,12 +314,186 @@ export default function LandingPage() {
                                     </div>
                                 </div>
 
+                                {/* Solutions Mega Menu */}
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setSolutionMenuOpen(true)}
+                                    onMouseLeave={() => setSolutionMenuOpen(false)}
+                                >
+                                    <button
+                                        className="flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-white transition-all px-4 py-6"
+                                        aria-expanded={solutionMenuOpen}
+                                        aria-haspopup="true"
+                                    >
+                                        Solutions <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", solutionMenuOpen && "rotate-180")} />
+                                    </button>
+
+                                    <div className={cn(
+                                        "fixed left-0 right-0 bg-slate-950/98 backdrop-blur-3xl border-b border-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out",
+                                        "top-20",
+                                        solutionMenuOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-4 invisible pointer-events-none"
+                                    )}>
+                                        <div className="max-w-7xl mx-auto px-8 py-10">
+                                            <div className="grid grid-cols-5 gap-8">
+                                                {Object.entries(solutionsByCategory).map(([category, solutions]) => (
+                                                    <div key={category}>
+                                                        <h3 className="text-[10px] font-bold text-indigo-400 uppercase tracking-[2px] mb-6">
+                                                            {category}
+                                                        </h3>
+                                                        <div className="space-y-5">
+                                                            {solutions.map(sol => (
+                                                                <Link
+                                                                    key={sol.slug}
+                                                                    href={`/solutions/${sol.slug}`}
+                                                                    className="flex items-start gap-4 group"
+                                                                >
+                                                                    <div className={cn(
+                                                                        "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br shadow-inner group-hover:scale-105 transition-all duration-300",
+                                                                        sol.color
+                                                                    )}>
+                                                                        <sol.icon className="h-4.5 w-4.5 text-white" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <div className="font-bold text-sm text-slate-100 group-hover:text-indigo-400 transition-colors">
+                                                                            {sol.title}
+                                                                        </div>
+                                                                        <p className="text-[11px] text-slate-500 mt-1 leading-snug group-hover:text-slate-400 transition-colors">
+                                                                            {sol.description}
+                                                                        </p>
+                                                                    </div>
+                                                                </Link>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <div className="mt-8 pt-6 border-t border-white/5">
+                                                <Link href="/resources/why-omnidome" className="inline-flex items-center gap-2 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+                                                    Learn why ISPs choose OmniDome <ArrowRight className="h-4 w-4" />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <Link href="/pricing" className="text-sm font-semibold text-slate-300 hover:text-white transition-colors px-4 py-6">
                                     Pricing
                                 </Link>
-                                <Link href="/resources/why-omnidome" className="text-sm font-semibold text-slate-300 hover:text-white transition-colors px-4 py-6">
-                                    Why OmniDome
-                                </Link>
+
+                                {/* Resources Mega Menu */}
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setResourceMenuOpen(true)}
+                                    onMouseLeave={() => setResourceMenuOpen(false)}
+                                >
+                                    <button
+                                        className="flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-white transition-all px-4 py-6"
+                                        aria-expanded={resourceMenuOpen}
+                                        aria-haspopup="true"
+                                    >
+                                        Resources <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", resourceMenuOpen && "rotate-180")} />
+                                    </button>
+
+                                    <div className={cn(
+                                        "fixed left-0 right-0 bg-slate-950/98 backdrop-blur-3xl border-b border-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ease-out",
+                                        "top-20",
+                                        resourceMenuOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-4 invisible pointer-events-none"
+                                    )}>
+                                        <div className="max-w-7xl mx-auto px-8 py-10">
+                                            <div className="grid grid-cols-3 gap-12">
+                                                {/* Featured Links */}
+                                                <div>
+                                                    <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-[2px] mb-4">
+                                                        Featured
+                                                    </h3>
+                                                    <div className="space-y-4">
+                                                        {resourceItems.featured.map(item => (
+                                                            <Link
+                                                                key={item.title}
+                                                                href={item.href}
+                                                                className="flex items-start gap-3 group"
+                                                            >
+                                                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 group-hover:bg-indigo-500/10 transition-colors">
+                                                                    <item.icon className="h-5 w-5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-medium text-sm group-hover:text-indigo-400 transition-colors">
+                                                                        {item.title}
+                                                                    </div>
+                                                                    <p className="text-xs text-slate-500">
+                                                                        {item.description}
+                                                                    </p>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Services */}
+                                                <div>
+                                                    <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-[2px] mb-4">
+                                                        Services
+                                                    </h3>
+                                                    <div className="space-y-4">
+                                                        {resourceItems.services.map(item => (
+                                                            <Link
+                                                                key={item.title}
+                                                                href={item.href}
+                                                                className="flex items-start gap-3 group"
+                                                            >
+                                                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 group-hover:bg-indigo-500/10 transition-colors">
+                                                                    <item.icon className="h-5 w-5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-medium text-sm group-hover:text-indigo-400 transition-colors">
+                                                                        {item.title}
+                                                                    </div>
+                                                                    <p className="text-xs text-slate-500">
+                                                                        {item.description}
+                                                                    </p>
+                                                                    <span className="text-xs font-bold text-indigo-400 mt-1 inline-block">
+                                                                        {item.price}
+                                                                    </span>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                {/* Partners */}
+                                                <div>
+                                                    <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-[2px] mb-4">
+                                                        Partner Programme
+                                                    </h3>
+                                                    <div className="space-y-4">
+                                                        {resourceItems.partners.map(item => (
+                                                            <Link
+                                                                key={item.title}
+                                                                href={item.href}
+                                                                className="flex items-start gap-3 group"
+                                                            >
+                                                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 group-hover:bg-indigo-500/10 transition-colors">
+                                                                    <item.icon className="h-5 w-5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
+                                                                </div>
+                                                                <div>
+                                                                    <div className="font-medium text-sm group-hover:text-indigo-400 transition-colors">
+                                                                        {item.title}
+                                                                    </div>
+                                                                    <p className="text-xs text-slate-500">
+                                                                        {item.description}
+                                                                    </p>
+                                                                    <span className="text-xs font-bold text-indigo-400 mt-1 inline-block">
+                                                                        {item.price}
+                                                                    </span>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -305,6 +526,8 @@ export default function LandingPage() {
                     <div className="lg:hidden border-t border-white/5 bg-slate-950/98 backdrop-blur-xl p-6 space-y-4 animate-in slide-in-from-top-2 duration-200">
                         <Link href="/pricing" className="block font-semibold py-3 hover:text-indigo-400 transition-colors">Pricing</Link>
                         <Link href="/resources/why-omnidome" className="block font-semibold py-3 hover:text-indigo-400 transition-colors">Why OmniDome</Link>
+                        <Link href="/resources/services" className="block font-semibold py-3 hover:text-indigo-400 transition-colors">Services</Link>
+                        <Link href="/resources/partners" className="block font-semibold py-3 hover:text-indigo-400 transition-colors">Partner Programme</Link>
                         <div className="border-t border-white/5 pt-4 mt-4 space-y-3">
                             <Link href="/dashboard" className="block text-center py-3 font-semibold hover:text-indigo-400 transition-colors">Sign In</Link>
                             <Button className="w-full bg-gradient-to-r from-indigo-600 to-blue-500 font-bold shadow-[0_0_25px_rgba(79,70,229,0.3)]">Get Started Free</Button>
@@ -320,8 +543,8 @@ export default function LandingPage() {
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
                         {/* Announcement Badge */}
                         <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-black tracking-widest uppercase mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <Sparkles className="h-4 w-4 animate-pulse" />
-                            <span>2026 ISP Operating System</span>
+                            <Brain className="h-4 w-4 animate-pulse" />
+                            <span>Agentic AI Operating System for ISPs</span>
                             <div className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-ping" />
                         </div>
 
@@ -344,7 +567,7 @@ export default function LandingPage() {
 
                         {/* Subheadline */}
                         <p className="mx-auto max-w-2xl text-lg lg:text-xl text-slate-400 mb-12 leading-relaxed font-medium animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300 fill-mode-both">
-                            Stop juggling disconnected tools. Manage sales, fiber networks, billing, and support with an integrated OS built specifically for the <span className="text-white font-semibold">South African ISP market</span>.
+                            The first <span className="text-white font-semibold">Agentic AI-powered</span> platform that unifies sales, fiber networks, billing, and support. Built specifically for the <span className="text-white font-semibold">South African ISP market</span>.
                         </p>
 
                         {/* CTA Buttons */}
@@ -398,7 +621,7 @@ export default function LandingPage() {
                 <section className="py-16 border-y border-white/5 bg-white/[0.01]" aria-labelledby="trusted-heading">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <p id="trusted-heading" className="text-center text-sm text-slate-500 uppercase tracking-widest font-bold mb-8">
-                            Trusted by Leading FNOs & ISPs
+                            Ready to Connect with 72 FNO API or no API
                         </p>
                         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
                             {trustedBy.map((company) => (

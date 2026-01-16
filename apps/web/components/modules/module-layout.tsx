@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, type ReactNode } from "react"
+import { useState, useEffect, memo, useCallback, type ReactNode } from "react"
+import { cn } from "@/lib/utils"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -39,7 +40,7 @@ interface FlashcardKPI {
   backInsight: string
 }
 
-function FlipCard({ kpi }: { kpi: FlashcardKPI }) {
+const FlipCard = memo(function FlipCard({ kpi }: { kpi: FlashcardKPI }) {
   const [isFlipped, setIsFlipped] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -47,61 +48,72 @@ function FlipCard({ kpi }: { kpi: FlashcardKPI }) {
     setMounted(true)
   }, [])
 
+  const handleFlip = useCallback(() => {
+    setIsFlipped(prev => !prev)
+  }, [])
+
   return (
-    <div className="h-40 cursor-pointer" onClick={() => setIsFlipped(!isFlipped)}>
+    <div
+      className="h-36 sm:h-40 cursor-pointer touch-manipulation active:scale-[0.98] transition-transform"
+      onClick={handleFlip}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && handleFlip()}
+    >
       {!isFlipped ? (
         // Front
-        <div className="h-full rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/50">
+        <div className="h-full rounded-xl border border-border bg-card p-3 sm:p-4 transition-all hover:border-primary/50">
           <div className="flex h-full flex-col justify-between">
-            <div className="flex items-start justify-between">
-              <div className="rounded-lg bg-primary/20 p-2">{kpi.icon}</div>
+            <div className="flex items-start justify-between gap-2">
+              <div className="rounded-lg bg-primary/20 p-1.5 sm:p-2 shrink-0">{kpi.icon}</div>
               <Badge
                 variant="outline"
-                className={
+                className={cn(
+                  "text-xs shrink-0",
                   kpi.changeType === "positive"
                     ? "border-emerald-500/50 text-emerald-400"
                     : kpi.changeType === "negative"
                       ? "border-red-500/50 text-red-400"
                       : "border-muted text-muted-foreground"
-                }
+                )}
               >
                 {kpi.changeType === "positive" ? (
-                  <TrendingUp className="mr-1 h-3 w-3" />
+                  <TrendingUp className="mr-0.5 sm:mr-1 h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 ) : kpi.changeType === "negative" ? (
-                  <TrendingDown className="mr-1 h-3 w-3" />
+                  <TrendingDown className="mr-0.5 sm:mr-1 h-2.5 w-2.5 sm:h-3 sm:w-3" />
                 ) : null}
                 {kpi.change}
               </Badge>
             </div>
             <div>
-              <p className="text-sm text-muted-foreground">{kpi.title}</p>
-              <p className="text-2xl font-bold text-foreground">{!mounted ? "--" : kpi.value}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground truncate">{kpi.title}</p>
+              <p className="text-xl sm:text-2xl font-bold text-foreground">{!mounted ? "--" : kpi.value}</p>
             </div>
-            <p className="text-xs text-muted-foreground">Click to see details</p>
+            <p className="text-xs text-muted-foreground hidden sm:block">Click to see details</p>
           </div>
         </div>
       ) : (
         // Back
-        <div className="h-full rounded-xl border border-primary/50 bg-card p-4 transition-all">
+        <div className="h-full rounded-xl border border-primary/50 bg-card p-3 sm:p-4 transition-all">
           <div className="flex h-full flex-col justify-between">
             <div>
-              <h4 className="font-semibold text-foreground">{kpi.backTitle}</h4>
-              <div className="mt-2 space-y-1">
+              <h4 className="text-sm sm:text-base font-semibold text-foreground">{kpi.backTitle}</h4>
+              <div className="mt-1.5 sm:mt-2 space-y-0.5 sm:space-y-1">
                 {kpi.backDetails.map((detail, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{detail.label}</span>
-                    <span className="font-medium text-foreground">{!mounted ? "--" : detail.value}</span>
+                  <div key={idx} className="flex justify-between text-xs sm:text-sm gap-2">
+                    <span className="text-muted-foreground truncate">{detail.label}</span>
+                    <span className="font-medium text-foreground shrink-0">{!mounted ? "--" : detail.value}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <p className="text-xs text-emerald-400">{kpi.backInsight}</p>
+            <p className="text-xs text-emerald-400 line-clamp-2">{kpi.backInsight}</p>
           </div>
         </div>
       )}
     </div>
   )
-}
+})
 
 interface ActivityItem {
   id: string
