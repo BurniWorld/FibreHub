@@ -247,11 +247,11 @@ export function ModuleLayout({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Flippable KPI Flashcards at the top */}
       <div>
-        <h3 className="mb-4 text-lg font-semibold text-foreground">Key Performance Indicators</h3>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <h3 className="mb-3 sm:mb-4 text-base sm:text-lg font-semibold text-foreground">Key Performance Indicators</h3>
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
           {flashcardKPIs.map((kpi) => (
             <FlipCard key={kpi.id} kpi={kpi} />
           ))}
@@ -262,34 +262,34 @@ export function ModuleLayout({
       {children}
 
       {/* Activity, Issues, Summary, Tasks */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card className="border-border bg-card">
-            <CardHeader className="pb-2">
+            <CardHeader className="pb-2 px-3 sm:px-6">
               <Tabs value={activeInfoTab} onValueChange={setActiveInfoTab}>
-                <TabsList className="bg-secondary">
-                  <TabsTrigger value="activity" className="gap-2">
-                    <Clock className="h-4 w-4" />
-                    Last Activity
+                <TabsList className="bg-secondary h-auto flex-wrap gap-1 p-1">
+                  <TabsTrigger value="activity" className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+                    <Clock className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline">Last </span>Activity
                   </TabsTrigger>
-                  <TabsTrigger value="issues" className="gap-2">
-                    <AlertCircle className="h-4 w-4" />
+                  <TabsTrigger value="issues" className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+                    <AlertCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     Issues
                     {issues.filter((i) => i.status === "open").length > 0 && (
-                      <Badge className="ml-1 bg-red-500/20 text-red-400">
+                      <Badge className="ml-1 bg-red-500/20 text-red-400 text-xs">
                         {issues.filter((i) => i.status === "open").length}
                       </Badge>
                     )}
                   </TabsTrigger>
-                  <TabsTrigger value="summary" className="gap-2">
-                    <FileText className="h-4 w-4" />
+                  <TabsTrigger value="summary" className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+                    <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     Summary
                   </TabsTrigger>
-                  <TabsTrigger value="tasks" className="gap-2">
-                    <CheckSquare className="h-4 w-4" />
+                  <TabsTrigger value="tasks" className="gap-1.5 sm:gap-2 text-xs sm:text-sm px-2 sm:px-3">
+                    <CheckSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     Tasks
                     {tasks.filter((t) => t.status !== "done").length > 0 && (
-                      <Badge className="ml-1 bg-amber-500/20 text-amber-400">
+                      <Badge className="ml-1 bg-amber-500/20 text-amber-400 text-xs">
                         {tasks.filter((t) => t.status !== "done").length}
                       </Badge>
                     )}
@@ -437,50 +437,50 @@ export function ModuleLayout({
 
       {/* Exportable Table View */}
       <Card className="border-border bg-card">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Data Table</CardTitle>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <Filter className="mr-2 h-4 w-4" />
+        <CardHeader className="px-3 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <CardTitle className="text-sm sm:text-base">Data Table</CardTitle>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm h-8 sm:h-9">
+                <Filter className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Filter
               </Button>
-              <Button variant="outline" size="sm">
-                <RefreshCw className="mr-2 h-4 w-4" />
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm h-8 sm:h-9">
+                <RefreshCw className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Refresh
               </Button>
-              <Button size="sm" className="bg-primary" onClick={handleExport}>
-                <Download className="mr-2 h-4 w-4" />
-                Export CSV
+              <Button size="sm" className="bg-primary text-xs sm:text-sm h-8 sm:h-9" onClick={handleExport}>
+                <Download className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                Export
               </Button>
             </div>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto rounded-lg border border-border">
-            <table className="w-full">
+        <CardContent className="px-3 sm:px-6">
+          <div className="overflow-x-auto rounded-lg border border-border -mx-1 sm:mx-0">
+            <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
                   {tableColumns.map((col) => (
-                    <th key={col.key} className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">
+                    <th key={col.key} className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground whitespace-nowrap">
                       {col.label}
                     </th>
                   ))}
-                  <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Actions</th>
+                  <th className="px-2 sm:px-4 py-2 sm:py-3 text-left text-xs sm:text-sm font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {tableData.slice(0, 10).map((row) => (
                   <tr key={row.id} className="border-b border-border last:border-0">
                     {tableColumns.map((col) => (
-                      <td key={col.key} className="px-4 py-3 text-sm text-foreground">
+                      <td key={col.key} className="px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-foreground">
                         {row[col.key]}
                       </td>
                     ))}
-                    <td className="px-4 py-3">
+                    <td className="px-2 sm:px-4 py-2 sm:py-3">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" className="h-8 w-8 touch-manipulation">
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -496,15 +496,15 @@ export function ModuleLayout({
               </tbody>
             </table>
           </div>
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
+          <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Showing 1-{Math.min(10, tableData.length)} of {tableData.length} entries
             </p>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" disabled>
+              <Button variant="outline" size="sm" disabled className="text-xs sm:text-sm h-8 sm:h-9 touch-manipulation">
                 Previous
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm h-8 sm:h-9 touch-manipulation">
                 Next
               </Button>
             </div>
